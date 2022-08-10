@@ -1,12 +1,12 @@
 import smtplib
+import time
 import requests
 from datetime import datetime
-
+USERNAME = input("Enter email address: ")
+PASSWORD = input("Enter password: ")
 MY_LAT = 23.746466  # Your latitude
 MY_LONG = 90.376015  # Your longitude
 
-
-# Your position is within +5 or -5 degrees of the ISS position.
 
 def is_near():
 
@@ -40,9 +40,10 @@ def is_night():
         return True
 
 
-
-
-if is_near() and is_night():
-    connection = smtplib.SMTP("smtp.gmail.com", port= 587)
-    connection.starttls()
-    connection.sendmail()
+while True:
+    if is_near() and is_night():
+        with open(smtplib.SMTP("smtp.gmail.com", port= 587)) as connection:
+            connection.starttls()
+            connection.sendmail(from_addr=USERNAME, to_addrs=PASSWORD,
+            msg= "Subject: Look Up☝️\n\n The ISS is above you ")
+    time.sleep(60)
